@@ -2,6 +2,7 @@ import contactsReducer from './phonebook-reducer';
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from '@reduxjs/toolkit';
 import { contactsApi } from '../redux/rtk';
+import user from './user';
 import {
 	persistStore,
 	FLUSH,
@@ -11,13 +12,13 @@ import {
 	PURGE,
 	REGISTER,
 } from 'redux-persist';
-import {loginReducer} from "../redux/loginApi"
+import { loginReducer } from '../redux/loginApi';
 
 const rootReducer = combineReducers({
 	contacts: contactsReducer,
 	[contactsApi.reducerPath]: contactsApi.reducer,
 	[loginReducer.reducerPath]: loginReducer.reducer,
-
+	user,
 });
 
 const store = configureStore({

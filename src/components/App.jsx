@@ -2,12 +2,14 @@ import styles from '../components/app.module.css';
 import { Route, Routes, Link } from 'react-router-dom';
 import ContactsConatiner from './ContactsContainer';
 import { Tab, Tabs } from '@mui/material';
-import LogIn from './Login';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { MemoryRouter, matchPath, useLocation } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
 import Registration from './Registration';
+import Login from './Login';
+import { useGetUserQuery } from '../redux/loginApi';
+
 
 function Router(props) {
 	const { children } = props;
@@ -47,7 +49,7 @@ function MyTabs() {
 	return (
 		<Tabs value={currentTab}>
 			<Tab label="Contacts" value="/contacts" to="/contacts" component={Link} />
-			<Tab label="LogIn" value="/login" to="/login" component={Link} />
+			<Tab label="Login" value="/login" to="/login" component={Link} />
 			<Tab
 				label="Registration"
 				value="/register"
@@ -59,15 +61,17 @@ function MyTabs() {
 }
 
 const App = () => {
+	useGetUserQuery();
+
 	return (
 		<div className={styles.app}>
 			<MyTabs />
 
 			<Routes>
 				<Route path="/contacts" element={<ContactsConatiner />} />
-				<Route path="/login" element={<LogIn />} />
+				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Registration />} />
-				<Route path="*" element={<LogIn />} />
+				<Route path="*" element={<Registration />} />
 			</Routes>
 		</div>
 	);

@@ -1,53 +1,51 @@
 import { Fragment } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
-import FormGroup from '@mui/material/FormGroup';
 import Button from '@mui/material/Button';
 import styles from '../Login/index.module.css';
-import { useSignUpMutation } from 'redux/loginApi';
 import { useState } from 'react';
+import { useLogInMutation } from 'redux/loginApi';
+import { useDispatch } from 'react-redux';
+import * as action from '../../redux/phonebook-actions';
 
-const LogIn = () => {
+const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [signUp, status] = useSignUpMutation();
-	console.log(status);
+	const [logIn] = useLogInMutation();
+	const dispatch = useDispatch();
 
-	const handleSubmit = () => {
-		signUp({
+	const handleSubmit = e => {
+		e.preventDefault();
+		let resp = {
 			email: email,
 			password: password,
-		});
-		setEmail('');
-		setPassword('');
-	};
+		};
 
+		logIn(resp).then(data => dispatch(action.setToken(data.data.token)));
+	};
 	return (
 		<Fragment>
-			<FormGroup onSubmit={handleSubmit} className={styles.form_body}>
+			<form
+				onSubmit={e => {
+					handleSubmit(e);
+				}}
+				className={styles.form_body}
+			>
 				<InputLabel htmlFor="my-input">Email address</InputLabel>
 				<Input
-					onChange={e => {
-						setEmail(e.target.value);
-					}}
-					value={email}
+					onChange={e => setEmail(e.target.value)}
 					id="my-input"
 					aria-describedby="my-helper-text"
 				/>
 				<InputLabel htmlFor="my-password">Password</InputLabel>
-				<Input
-					onChange={e => {
-						setPassword(e.target.value);
-					}}
-					value={password}
-					id="my-password"
-				/>
+				<Input onChange={e => setPassword(e.target.value)} id="my-password" />
+				<br />
 				<Button variant="contained" type="submit">
 					Log in
 				</Button>
-			</FormGroup>
+			</form>
 		</Fragment>
 	);
 };
 
-export default LogIn;
+export default Login;
