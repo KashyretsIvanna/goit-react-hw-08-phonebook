@@ -1,38 +1,74 @@
 import styles from '../Contacts/index.module.css';
-import Contact from './Contact';
 import { useSelector } from 'react-redux';
 import { useGetContactsQuery } from '../../redux/rtk';
-import { SyncLoader } from 'react-spinners';
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { Button } from '@mui/material';
+import { useDeleteContactMutation } from '../../redux/rtk';
 
-const Contacts = () => {
-	const { data, isLoading } = useGetContactsQuery();
+export default function Contacts() {
+	const { data } = useGetContactsQuery();
 
-	console.log(data);
 	const filter = useSelector(state => state.contacts.filter);
+
 	const handleFilter = () => {
 		return data.filter(contact =>
 			contact.name.toLowerCase().includes(filter.toLowerCase()),
 		);
 	};
 
-	return (
-		<div>
-			<ul className={styles.contacts}>
-				{isLoading && <SyncLoader />}
-				{data &&
-					handleFilter().map(contact => {
-						return (
-							<Contact
-								key={contact.id}
-								number={contact.number}
-								name={contact.name}
-								id={contact.id}
-							/>
-						);
-					})}
-			</ul>
-		</div>
-	);
-};
+	const [deleteContact, { isLoading }] = useDeleteContactMutation();
 
-export default Contacts;
+	return (
+		<>
+			{/* {isLoading && <SyncLoader />} */}
+			{data && (
+				<div className={styles.container}>
+					<TableContainer sx={{ maxHeight: 440 }} component={Paper}>
+						<Table
+							stickyHeader
+							sx={{ maxWidth: 400 }}
+							aria-label="simple table"
+						>
+							<TableHead>
+								<TableRow>
+									<TableCell>Contact name</TableCell>
+									<TableCell align="right">Phone number</TableCell>
+									<TableCell align="right">Delete</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{handleFilter().map(row => (
+									<TableRow
+										key={row.id}
+										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+									>
+										<TableCell component="th" scope="row">
+											{row.name}
+										</TableCell>
+										<TableCell align="right">{row.number}</TableCell>
+										<TableCell align="right">
+											<Button
+												onClick={() => {
+													deleteContact(row.id);
+												}}
+											>
+												{isLoading ? 'Loading' : 'Delete'}
+											</Button>
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</div>
+			)}
+		</>
+	);
+}

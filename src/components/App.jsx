@@ -8,15 +8,15 @@ import { MemoryRouter, matchPath, useLocation } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
 import Registration from './Registration';
 import Login from './Login';
+import { useSelector } from 'react-redux';
 import { useGetUserQuery } from '../redux/loginApi';
-
+import { SyncLoader } from 'react-spinners';
 
 function Router(props) {
 	const { children } = props;
 	if (typeof window === 'undefined') {
 		return <StaticRouter location="/drafts">{children}</StaticRouter>;
 	}
-
 	return (
 		<MemoryRouter initialEntries={['/drafts']} initialIndex={0}>
 			{children}
@@ -43,12 +43,21 @@ function useRouteMatch(patterns) {
 }
 
 function MyTabs() {
+	let token = useSelector(state => state.contacts.token);
+
 	const routeMatch = useRouteMatch(['/contacts', '/login', '/register']);
 	const currentTab = routeMatch?.pattern?.path;
 
 	return (
 		<Tabs value={currentTab}>
-			<Tab label="Contacts" value="/contacts" to="/contacts" component={Link} />
+			{token && (
+				<Tab
+					label="Contacts"
+					value="/contacts"
+					to="/contacts"
+					component={Link}
+				/>
+			)}
 			<Tab label="Login" value="/login" to="/login" component={Link} />
 			<Tab
 				label="Registration"
@@ -61,18 +70,24 @@ function MyTabs() {
 }
 
 const App = () => {
-	useGetUserQuery();
+	const { isLoading } = useGetUserQuery();
+
+	let token = useSelector(state => state.contacts.token);
 
 	return (
 		<div className={styles.app}>
 			<MyTabs />
 
-			<Routes>
-				<Route path="/contacts" element={<ContactsConatiner />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Registration />} />
-				<Route path="*" element={<Registration />} />
-			</Routes>
+			{!isLoading ? (
+				<Routes>
+					{token && <Route path="/contacts" element={<ContactsConatiner />} />}
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Registration />} />
+					<Route path="*" element={<Login />} />
+				</Routes>
+			) : (
+				<SyncLoader />
+			)}
 		</div>
 	);
 };

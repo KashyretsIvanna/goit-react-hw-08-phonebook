@@ -1,6 +1,11 @@
-.contacts{
-    margin: 0 auto;
-    max-width: max-content;
-    align-items: center;
-    flex-direction: column;
+.contacts {
+	margin: 0 auto;
+	max-width: max-content;
+	align-items: center;
+	flex-direction: column;
+}
+
+.container {
+	width: 400px;
+	margin: 0 auto;
 }

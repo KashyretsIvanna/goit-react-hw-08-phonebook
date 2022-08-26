@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useAddContactsMutation, useGetContactsQuery } from '../../redux/rtk';
 import Button from '@mui/material/Button';
+import { Input } from '@mui/material';
 
 const Form = () => {
 	const [name, setName] = useState('');
@@ -12,6 +13,8 @@ const Form = () => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
+		console.log('subm');
+		console.log('Data: ', data);
 		let bool = data.some(contact => {
 			return contact.name.toLowerCase() === name.toLowerCase();
 		});
@@ -38,10 +41,11 @@ const Form = () => {
 	return (
 		<div className={styles.form}>
 			<form onSubmit={handleSubmit}>
-				<input
+				<Input
 					onChange={handleChangeName}
 					type="text"
 					name="name"
+					placeholder="contact name"
 					pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
 					title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
 					required
@@ -53,8 +57,9 @@ const Form = () => {
 
 				<br />
 
-				<input
+				<Input
 					onChange={handleChangeTel}
+					placeholder="number"
 					type="tel"
 					name="number"
 					className={styles.input}

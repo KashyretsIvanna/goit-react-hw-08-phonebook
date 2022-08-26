@@ -3,10 +3,13 @@ import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import styles from '../Login/index.module.css';
-import {  useSignUpMutation } from 'redux/loginApi';
+import { useSignUpMutation } from 'redux/loginApi';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import * as actions from '../../redux/phonebook-actions';
 
 const Registration = () => {
+	const dispatch = useDispatch();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
@@ -15,14 +18,12 @@ const Registration = () => {
 	const handleSubmit = e => {
 		e.preventDefault();
 		let resp = {
-			name:name,
+			name: name,
 			email: email,
 			password: password,
 		};
-		console.log(resp);
 
-		signUp(resp);
-		console.log(status);
+		signUp(resp).then(data => dispatch(actions.setToken(data.data.token)));
 	};
 
 	return (
@@ -56,7 +57,7 @@ const Registration = () => {
 				/>
 				<br />
 				<Button variant="contained" type="submit">
-					Log in
+					Sign Up
 				</Button>
 			</form>
 		</Fragment>
