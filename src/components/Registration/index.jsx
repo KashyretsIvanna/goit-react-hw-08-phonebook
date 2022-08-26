@@ -13,7 +13,7 @@ const Registration = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
-	const [signUp, status] = useSignUpMutation();
+	const [signUp] = useSignUpMutation();
 
 	const handleSubmit = e => {
 		e.preventDefault();
