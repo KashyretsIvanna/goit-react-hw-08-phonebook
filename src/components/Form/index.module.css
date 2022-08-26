@@ -4,17 +4,15 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+    row-gap: 10px;
 }
 .input{
     width: 180px;
     padding: 5px;
-    border-radius: 10px;
-    border: 3px solid black;
-    transition: 0.2s;
+    display: block;
+    /* margin-bottom: 20px; */
 }
-.input:hover,.input:focus{
-    border: 3px solid blue;
-}
+
 .form{
     padding: 30px;
     border: 2px solid black;

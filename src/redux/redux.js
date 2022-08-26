@@ -11,10 +11,13 @@ import {
 	PURGE,
 	REGISTER,
 } from 'redux-persist';
+import {loginReducer} from "../redux/loginApi"
 
 const rootReducer = combineReducers({
 	contacts: contactsReducer,
 	[contactsApi.reducerPath]: contactsApi.reducer,
+	[loginReducer.reducerPath]: loginReducer.reducer,
+
 });
 
 const store = configureStore({

@@ -2,12 +2,12 @@ import styles from '../Form/index.module.css';
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useAddContactsMutation, useGetContactsQuery } from '../../redux/rtk';
+import Button from '@mui/material/Button';
 
 const Form = () => {
 	const [name, setName] = useState('');
 	const [number, setNumber] = useState('');
 	const { data } = useGetContactsQuery();
-
 	const [addItem] = useAddContactsMutation();
 
 	const handleSubmit = e => {
@@ -51,6 +51,8 @@ const Form = () => {
 
 				<br />
 
+				<br />
+
 				<input
 					onChange={handleChangeTel}
 					type="tel"
@@ -63,41 +65,12 @@ const Form = () => {
 				/>
 
 				<br />
-
-				<button className={styles.button} type="submit">
+				<Button variant="contained" type="submit">
 					Submit
-				</button>
+				</Button>
 			</form>
 		</div>
 	);
 };
-
-// const mapStateToProps = state => {
-// 	return {
-// 		contactsFromRedux: state.contacts.items,
-// 	};
-// };
-
-// const mapDispatchToProps = dispatch => {
-// 	return {
-// 		addContact:obj=>dispatch(actions.addContacts(obj))
-// 	};
-// };
-
-// Form.propTypes = {
-// 	contactsFromRedux: PropTypes.arrayOf(
-// 		PropTypes.shape({
-// 			name: PropTypes.string.isRequired,
-// 			number:PropTypes.string.isRequired,
-// 		}),
-// 	),
-// 	setContactsToRedux:PropTypes.arrayOf(
-// 		PropTypes.shape({
-// 			name: PropTypes.string.isRequired,
-// 			number:PropTypes.string.isRequired,
-
-// 		}),
-// 	),
-// };
 
 export default Form;

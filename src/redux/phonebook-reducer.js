@@ -21,6 +21,7 @@ const contactsReducer = combineReducers({
 const persistedContsctsReducer = persistReducer(
 	rootPersistConfig,
 	contactsReducer,
+
 );
 
 export default persistedContsctsReducer;
