@@ -23,7 +23,13 @@ const Registration = () => {
 			password: password,
 		};
 
-		signUp(resp).then(data => dispatch(actions.setToken(data.data.token)));
+		signUp(resp)
+			.then(data => {
+				console.log(data.data.token);
+
+				dispatch(actions.setToken(data.data.token));
+			})
+			.catch(error => console.log(error));
 	};
 
 	return (

@@ -9,13 +9,12 @@ import {
 import { useState } from 'react';
 
 const Row = ({ row }) => {
-	const [updateContacts] = useUpdateContactsMutation();
+	const [updateContacts, params] = useUpdateContactsMutation();
 	const [deleteContact, { isLoading }] = useDeleteContactMutation();
 	const [name, setName] = useState(row.name);
 	const [number, setNumber] = useState(row.number);
 
 	const updateContact = () => {
-		console.log({ id: row.id, data: { name, number } });
 		updateContacts({ id: row.id, data: { name, number } });
 	};
 
@@ -55,7 +54,7 @@ const Row = ({ row }) => {
 						updateContact();
 					}}
 				>
-					Update
+					{params.isLoading ? 'Loading' : 'Update'}
 				</Button>
 			</TableCell>
 		</TableRow>
