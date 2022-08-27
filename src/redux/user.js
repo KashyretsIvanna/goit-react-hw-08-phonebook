@@ -28,9 +28,9 @@ const sliceUser = createSlice({
 			loginReducer.endpoints.logOut.matchFulfilled,
 			(state, { payload }) => {
 				console.log(state);
-				state.email = '';
-				state.name = ' ';
-				state.token = ' ';
+				state.email = null;
+				state.name = null;
+				state.token = null;
 			},
 		);
 	},

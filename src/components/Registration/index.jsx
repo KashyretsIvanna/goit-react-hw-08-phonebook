@@ -7,8 +7,10 @@ import { useSignUpMutation } from 'redux/loginApi';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as actions from '../../redux/phonebook-actions';
+import { useNavigate } from 'react-router-dom';
 
 const Registration = () => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -25,11 +27,12 @@ const Registration = () => {
 
 		signUp(resp)
 			.then(data => {
-				console.log(data.data.token);
-
 				dispatch(actions.setToken(data.data.token));
 			})
-			.catch(error => console.log(error));
+			.then(() => navigate('/contacts'))
+			.catch(() => {
+				alert('Bad request');
+			});
 	};
 
 	return (

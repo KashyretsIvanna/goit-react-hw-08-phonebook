@@ -12,7 +12,8 @@ import { useSelector } from 'react-redux';
 import { useGetUserQuery } from '../redux/loginApi';
 import { SyncLoader } from 'react-spinners';
 import { useGetContactsQuery } from '../redux/rtk';
-
+import NotFound from './NotFound';
+import PrivateRoute from './PrivateRoute';
 
 function Router(props) {
 	const { children } = props;
@@ -45,14 +46,13 @@ function useRouteMatch(patterns) {
 }
 
 function MyTabs() {
-	let token = useSelector(state => state.contacts.token);
-
+	let user = useSelector(state => state.user);
 	const routeMatch = useRouteMatch(['/contacts', '/login', '/register']);
 	const currentTab = routeMatch?.pattern?.path;
 
 	return (
 		<Tabs value={currentTab}>
-			{token && (
+			{user.name && (
 				<Tab
 					label="Contacts"
 					value="/contacts"
@@ -60,43 +60,49 @@ function MyTabs() {
 					component={Link}
 				/>
 			)}
-			<Tab
-				label="Registration"
-				value="/register"
-				to="/register"
-				component={Link}
-			/>
-			<Tab label="Login" value="/login" to="/login" component={Link} />
-
+			{!user.name && (
+				<Tab
+					label="Registration"
+					value="/register"
+					to="/register"
+					component={Link}
+				/>
+			)}
+			{!user.name && (
+				<Tab label="Login" value="/login" to="/login" component={Link} />
+			)}
 		</Tabs>
 	);
 }
 
 const App = () => {
 	const { isLoading } = useGetUserQuery();
-	
+	let user = useSelector(state => state.user);
+
 	const params = useGetContactsQuery();
-	let token = useSelector(state => state.contacts.token);
 
 	return (
 		<div className={styles.app}>
 			<MyTabs />
 
-			{!isLoading && !params.isLoading ? (
-				<Routes>
-					{token && (
-						<Route
-							path="/contacts"
-							element={<ContactsConatiner data={params.data} />}
-						/>
-					)}
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Registration />} />
-					<Route path="*" element={<Login/>} />
-				</Routes>
-			) : (
-				<SyncLoader />
-			)}
+			<Routes>
+				<Route path="/" element={<PrivateRoute />}>
+					<Route
+						path="/contacts"
+						element={
+							!isLoading && !params.isLoading ? (
+								<ContactsConatiner data={params.data} />
+							) : (
+								<SyncLoader />
+							)
+						}
+					/>
+				</Route>
+
+				{!user.name&&<Route path="/login" element={<Login />} />}
+				{!user.name&&<Route path="/register" element={<Registration />} />}
+				<Route path="*" element={<NotFound />} />
+			</Routes>
 		</div>
 	);
 };

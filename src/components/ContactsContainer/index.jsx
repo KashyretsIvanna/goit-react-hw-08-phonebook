@@ -36,7 +36,7 @@ ContactsConatiner.propTypes = {
 			name: PropTypes.string,
 			number: PropTypes.string,
 		}),
-	).isRequired,
+	),
 };
 
 export default ContactsConatiner;

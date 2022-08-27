@@ -25,7 +25,11 @@ const Login = () => {
 
 		logIn(resp)
 			.then(data => dispatch(action.setToken(data.data.token)))
-			.then(navigate('/contacts'));
+			.then(() => navigate('/contacts'))
+			.catch(() => {
+				alert(`check your email or password`);
+
+			});
 	};
 	return (
 		<Fragment>
