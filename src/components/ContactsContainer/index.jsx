@@ -5,8 +5,8 @@ import Filter from '../Filter';
 import UserMenu from 'components/UserMenu';
 import { useSelector } from 'react-redux';
 import styles from '../ContactsContainer/index.module.css';
-
-const ContactsConatiner = () => {
+import PropTypes from 'prop-types';
+const ContactsConatiner = props => {
 	const token = useSelector(state => state.contacts.token);
 	return (
 		<>
@@ -21,13 +21,22 @@ const ContactsConatiner = () => {
 						<div className={styles.right}>
 							<h2>Contacts</h2>
 							<Filter />
-							<Contacts />
+							<Contacts data={props.data} />
 						</div>
 					</div>
 				</Fragment>
 			)}
 		</>
 	);
+};
+ContactsConatiner.propTypes = {
+	data: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.string,
+			name: PropTypes.string,
+			number: PropTypes.string,
+		}),
+	).isRequired,
 };
 
 export default ContactsConatiner;

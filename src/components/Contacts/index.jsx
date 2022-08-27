@@ -1,6 +1,5 @@
 import styles from '../Contacts/index.module.css';
 import { useSelector } from 'react-redux';
-import { useGetContactsQuery } from '../../redux/rtk';
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,9 +9,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Row from 'components/Row';
+import PropTypes, { shape, string } from 'prop-types';
 
-export default function Contacts() {
-	const { data } = useGetContactsQuery();
+export default function Contacts(props) {
+	const { data } = props;
+	console.log(data);
 
 	const filter = useSelector(state => state.contacts.filter);
 	const handleFilter = () => {
@@ -23,7 +24,6 @@ export default function Contacts() {
 
 	return (
 		<>
-			{/* {isLoading && <SyncLoader />} */}
 			{data && (
 				<div className={styles.container}>
 					<TableContainer sx={{ maxHeight: 440 }} component={Paper}>
@@ -53,3 +53,13 @@ export default function Contacts() {
 		</>
 	);
 }
+
+Contacts.propTypes = {
+	data: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.string,
+			name: PropTypes.string,
+			number: PropTypes.string,
+		}),
+	).isRequired,
+};

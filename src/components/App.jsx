@@ -11,6 +11,7 @@ import Login from './Login';
 import { useSelector } from 'react-redux';
 import { useGetUserQuery } from '../redux/loginApi';
 import { SyncLoader } from 'react-spinners';
+import { useGetContactsQuery } from '../redux/rtk';
 
 function Router(props) {
 	const { children } = props;
@@ -71,17 +72,21 @@ function MyTabs() {
 
 const App = () => {
 	const { isLoading } = useGetUserQuery();
-	// const { data } = useGetContactsQuery();
-
+	const params = useGetContactsQuery();
 	let token = useSelector(state => state.contacts.token);
 
 	return (
 		<div className={styles.app}>
 			<MyTabs />
 
-			{!isLoading ? (
+			{!isLoading && !params.isLoading ? (
 				<Routes>
-					{token && <Route path="/contacts" element={<ContactsConatiner />} />}
+					{token && (
+						<Route
+							path="/contacts"
+							element={<ContactsConatiner data={params.data} />}
+						/>
+					)}
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Registration />} />
 					<Route path="*" element={<Login />} />
