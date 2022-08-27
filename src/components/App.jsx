@@ -58,13 +58,13 @@ function MyTabs() {
 					component={Link}
 				/>
 			)}
-			<Tab label="Login" value="/login" to="/login" component={Link} />
 			<Tab
 				label="Registration"
 				value="/register"
 				to="/register"
 				component={Link}
 			/>
+			<Tab label="Login" value="/login" to="/login" component={Link} />
 		</Tabs>
 	);
 }
