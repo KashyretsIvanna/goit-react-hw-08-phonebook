@@ -72,6 +72,7 @@ function MyTabs() {
 
 const App = () => {
 	const { isLoading } = useGetUserQuery();
+	
 	const params = useGetContactsQuery();
 	let token = useSelector(state => state.contacts.token);
 

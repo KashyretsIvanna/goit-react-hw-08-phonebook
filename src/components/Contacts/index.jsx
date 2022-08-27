@@ -13,8 +13,6 @@ import PropTypes from 'prop-types';
 
 export default function Contacts(props) {
 	const { data } = props;
-	console.log(data);
-
 	const filter = useSelector(state => state.contacts.filter);
 	const handleFilter = () => {
 		return data.filter(contact =>
