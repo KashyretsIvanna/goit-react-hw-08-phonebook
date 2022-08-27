@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Row from 'components/Row';
-import PropTypes, { shape, string } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function Contacts(props) {
 	const { data } = props;
