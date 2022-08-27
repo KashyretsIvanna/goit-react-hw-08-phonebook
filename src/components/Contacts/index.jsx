@@ -11,7 +11,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Row from 'components/Row';
 
-
 export default function Contacts() {
 	const { data } = useGetContactsQuery();
 
@@ -22,7 +21,6 @@ export default function Contacts() {
 		);
 	};
 
-
 	return (
 		<>
 			{/* {isLoading && <SyncLoader />} */}
@@ -31,7 +29,7 @@ export default function Contacts() {
 					<TableContainer sx={{ maxHeight: 440 }} component={Paper}>
 						<Table
 							stickyHeader
-							sx={{ maxWidth: 400 }}
+							sx={{ maxWidth: 450 }}
 							aria-label="simple table"
 						>
 							<TableHead>
@@ -40,12 +38,12 @@ export default function Contacts() {
 									<TableCell align="right">Phone number</TableCell>
 
 									<TableCell align="right">Delete</TableCell>
+									<TableCell align="right">Update</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
 								{handleFilter().map(row => (
-									<Row key={row.id} row={row}/>
-									
+									<Row key={row.id} row={row} />
 								))}
 							</TableBody>
 						</Table>

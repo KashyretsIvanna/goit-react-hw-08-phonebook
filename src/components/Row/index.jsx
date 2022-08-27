@@ -15,7 +15,7 @@ const Row = ({ row }) => {
 	const [number, setNumber] = useState(row.number);
 
 	const updateContact = () => {
-		console.log('up');
+		console.log({ id: row.id, data: { name, number } });
 		updateContacts({ id: row.id, data: { name, number } });
 	};
 

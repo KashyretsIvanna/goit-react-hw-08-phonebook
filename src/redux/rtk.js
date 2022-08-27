@@ -40,7 +40,7 @@ export const contactsApi = createApi({
 				return {
 					url: `contacts/${id}`,
 					method: 'PATCH',
-					data,
+					body: data,
 				};
 			},
 			invalidatesTags: ['Contact'],
