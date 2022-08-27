@@ -35,17 +35,16 @@ export const contactsApi = createApi({
 			invalidatesTags: ['Contact'],
 		}),
 		updateContacts: build.mutation({
-			query(data) {
-				const {id,payload}=data
+			query(payload) {
+				const { id, data } = payload;
 				return {
 					url: `contacts/${id}`,
 					method: 'PATCH',
-					payload,
+					data,
 				};
 			},
 			invalidatesTags: ['Contact'],
 		}),
-		
 	}),
 });
 
