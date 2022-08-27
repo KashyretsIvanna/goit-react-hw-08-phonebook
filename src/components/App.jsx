@@ -13,6 +13,7 @@ import { useGetUserQuery } from '../redux/loginApi';
 import { SyncLoader } from 'react-spinners';
 import { useGetContactsQuery } from '../redux/rtk';
 
+
 function Router(props) {
 	const { children } = props;
 	if (typeof window === 'undefined') {
@@ -66,6 +67,7 @@ function MyTabs() {
 				component={Link}
 			/>
 			<Tab label="Login" value="/login" to="/login" component={Link} />
+
 		</Tabs>
 	);
 }
@@ -90,7 +92,7 @@ const App = () => {
 					)}
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Registration />} />
-					<Route path="*" element={<Login />} />
+					<Route path="*" element={<Login/>} />
 				</Routes>
 			) : (
 				<SyncLoader />

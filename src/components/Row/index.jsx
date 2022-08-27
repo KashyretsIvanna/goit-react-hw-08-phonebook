@@ -7,6 +7,7 @@ import {
 	useUpdateContactsMutation,
 } from '../../redux/rtk';
 import { useState } from 'react';
+import PropsTypes from 'prop-types';
 
 const Row = ({ row }) => {
 	const [updateContacts, params] = useUpdateContactsMutation();
@@ -59,6 +60,15 @@ const Row = ({ row }) => {
 			</TableCell>
 		</TableRow>
 	);
+};
+
+Row.propTypes = {
+	row: PropsTypes.shape({
+		name: PropsTypes.string,
+		number: PropsTypes.string,
+
+		id: PropsTypes.string,
+	}).isRequired,
 };
 
 export default Row;
