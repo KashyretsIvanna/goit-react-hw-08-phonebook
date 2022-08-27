@@ -7,12 +7,14 @@ import { useState } from 'react';
 import { useLogInMutation } from 'redux/loginApi';
 import { useDispatch } from 'react-redux';
 import * as action from '../../redux/phonebook-actions';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [logIn] = useLogInMutation();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -21,7 +23,9 @@ const Login = () => {
 			password: password,
 		};
 
-		logIn(resp).then(data => dispatch(action.setToken(data.data.token)));
+		logIn(resp)
+			.then(data => dispatch(action.setToken(data.data.token)))
+			.then(navigate('/contacts'));
 	};
 	return (
 		<Fragment>
