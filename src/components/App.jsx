@@ -14,6 +14,9 @@ import { SyncLoader } from 'react-spinners';
 import { useGetContactsQuery } from '../redux/rtk';
 import NotFound from './NotFound';
 import PrivateRoute from './PrivateRoute';
+import PublicRoutes from './PublicRoutes';
+import Home from './Home';
+import { Suspense } from 'react';
 
 function Router(props) {
 	const { children } = props;
@@ -77,32 +80,35 @@ function MyTabs() {
 
 const App = () => {
 	const { isLoading } = useGetUserQuery();
-	let user = useSelector(state => state.user);
 
 	const params = useGetContactsQuery();
 
 	return (
 		<div className={styles.app}>
 			<MyTabs />
+			{!isLoading && !params.isLoading ? (
+				<Suspense fallback={<SyncLoader />}>
+					<Routes>
+						<Route path="/">
+							<Route index element={<Home />} />
+							<Route path="contacts" element={<PrivateRoute />}>
+								<Route
+									path="/contacts"
+									element={<ContactsConatiner data={params.data} />}
+								/>
+							</Route>
 
-			<Routes>
-				<Route path="/" element={<PrivateRoute />}>
-					<Route
-						path="/contacts"
-						element={
-							!isLoading && !params.isLoading ? (
-								<ContactsConatiner data={params.data} />
-							) : (
-								<SyncLoader />
-							)
-						}
-					/>
-				</Route>
-
-				{!user.name&&<Route path="/login" element={<Login />} />}
-				{!user.name&&<Route path="/register" element={<Registration />} />}
-				<Route path="*" element={<NotFound />} />
-			</Routes>
+							<Route path="/" element={<PublicRoutes restricted />}>
+								<Route path="/login" element={<Login />} />
+								<Route path="/register" element={<Registration />} />
+							</Route>
+							<Route path="*" element={<NotFound />} />
+						</Route>
+					</Routes>
+				</Suspense>
+			) : (
+				<SyncLoader />
+			)}
 		</div>
 	);
 };
